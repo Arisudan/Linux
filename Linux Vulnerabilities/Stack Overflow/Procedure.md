@@ -213,6 +213,52 @@ size_t safe_len = len > BUF_LEN ? BUF_LEN : len;
 copy_from_user(kernel_buffer, buf, safe_len);
 ```
 
+Paste the following code:
+
+```c
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/fs.h>
+#include <linux/uaccess.h>
+
+#define DEVICE_NAME "vuln"
+#define BUF_LEN 32
+
+static int major;
+static char kernel_buffer[BUF_LEN];
+
+static ssize_t device_write(struct file *file, const char __user *buf, size_t len, loff_t *offset);
+
+static ssize_t device_write(struct file *file, const char __user *buf, size_t len, loff_t *offset) {
+    printk(KERN_INFO "[vuln] Writing %zu bytes (max: %d) to kernel buffer.\n", len, BUF_LEN);
+
+    size_t safe_len = len > BUF_LEN ? BUF_LEN : len;
+    if (copy_from_user(kernel_buffer, buf, safe_len)){
+    printk(KERN_WARNING "[vuln] copy_from_user failed\n");
+}
+
+    return len;
+}
+
+static struct file_operations fops = {
+    .write = device_write,
+};
+
+static int __init vuln_init(void) {
+    major = register_chrdev(0, DEVICE_NAME, &fops);
+    printk(KERN_INFO "[vuln] Module loaded. Major number: %d\n", major);
+    return 0;
+}
+
+static void __exit vuln_exit(void) {
+    unregister_chrdev(major, DEVICE_NAME);
+    printk(KERN_INFO "[vuln] Module unloaded.\n");
+}
+
+module_init(vuln_init);
+module_exit(vuln_exit);
+MODULE_LICENSE("GPL");
+```
 ---
 
 ### Step 10: Rebuild and Reload the Module
