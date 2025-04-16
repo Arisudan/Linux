@@ -1,8 +1,3 @@
-Absolutely! Here's a **customized `README.md`** for your **Stack Buffer Overflow in a Linux Kernel Module project**, specifically tailored for your **Ubuntu 32-bit** environment:
-
----
-
-```markdown
 # 🧠 Stack Buffer Overflow in a Linux Kernel Module (Ubuntu 32-bit)
 
 ## 📌 Project Overview
