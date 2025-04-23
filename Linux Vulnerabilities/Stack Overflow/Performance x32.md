@@ -15,7 +15,7 @@ sudo apt install gcc-multilib
 ### 2. Compile the Vulnerable Program
 Use the following command to compile for 32-bit:
 ```bash
-gcc -m32 -fno-stack-protector -z execstack overflow.c -o overflow32
+gcc -m32 -fno-stack-protector -z execstack stack_overflow.c -o stack_overflow32
 ```
 - `-m32`: Targets 32-bit architecture
 - `-fno-stack-protector`: Disables stack protection
