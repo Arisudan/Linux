@@ -32,6 +32,10 @@ Measure safe input execution time:
 ```bash
 time echo "SAFE_INPUT" | sudo tee /dev/vuln > /dev/null
 ```
+Install "perf" using the below command in Linux
+```bash
+apt-get install linux-tools-common linux-tools-generic linux-tools-`uname -r`
+```
 And with `perf`:
 ```bash
 perf stat echo "SAFE_INPUT" | sudo tee /dev/vuln > /dev/null
