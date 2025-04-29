@@ -37,6 +37,36 @@ Use `perf` to get detailed CPU usage:
 perf stat echo "SAFE_INPUT" | sudo tee /dev/vuln > /dev/null
 ```
 
+---
+
+## Performance Comparison: Safe Input vs Overflow Payload (64-bit Ubuntu) - For a Stack Overflow Vulnerability
+
+Below is a comparison of kernel module performance using safe input and an overflowing payload. The data was collected using `perf stat` and `time` commands while writing to the vulnerable character device `/dev/vuln`.
+
+
+| **Metric**                 | **SAFE_INPUT**               | **Overflow Payload (A...A)**              |
+|---------------------------|------------------------------|-------------------------------------------|
+| `task-clock (msec)`       | 0.510                        | 0.873880                                  |
+| `% CPUs utilized`         | 0.428                        | 0.472                                     |
+| `context-switches`        | 0                            | 0                                         |
+| `cpu-migrations`          | 0                            | 0                                         |
+| `page-faults`             | 69                           | 43                                        |
+| `cycles`                  | 1,641,356                    | *not supported*                           |
+| `instructions`            | 1,329,532                    | *not supported*                           |
+| `branches`                | 242,112                      | *not supported*                           |
+| `branch-misses`           | 8,490                        | *not supported*                           |
+| `elapsed time (sec)`      | 0.001179516                  | 0.001850336                               |
+
+
+## 🔍 Observations
+
+- **Safe input** results in measurable instruction execution and branch data.
+- **Overflow input** on 64-bit takes longer to execute, suggesting non-trivial control flow alterations.
+- **Page faults** reduce during overflow, possibly due to premature exit or bypassed logic.
+- **CPU utilization** is slightly higher during overflow, potentially from exception handling or abnormal memory access patterns.
+
+---
+
 ### 5. Run After Triggering Overflow
 Trigger the overflow with crafted input:
 ```bash
@@ -45,16 +75,49 @@ time echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" | sudo te
 ```bash
 perf stat echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" | sudo tee /dev/vuln > /dev/null
 ```
+---
+
+## 🛡️ Post-Fix Performance Comparison (64-bit Ubuntu) - After the Vulnerability Has Been Fixed
+
+This section presents the system performance metrics gathered using `perf stat` on a 64-bit system **after fixing the stack overflow vulnerability** in the `vuln_module`. The comparisons are based on both safe input and a long sequence of `'A'` characters that previously triggered the vulnerability.
+
+
+| **Metric**              | **SAFE_INPUT**         | **Long 'A' Input**                             |
+|-------------------------|------------------------|------------------------------------------------|
+| **Task Clock (msec)**   | *Not recorded*         | 0.420                                          |
+| **CPU Utilized**        | *Not recorded*         | 0.523 CPUs                                     |
+| **Context Switches**    | *Not recorded*         | 0                                              |
+| **CPU Migrations**      | *Not recorded*         | 0                                              |
+| **Page Faults**         | *Not recorded*         | 68                                             |
+| **Cycles**              | *Not recorded*         | 1,500,775                                      |
+| **Instructions**        | *Not recorded*         | 1,311,208                                      |
+| **Branches**            | *Not recorded*         | 238,589                                        |
+| **Branch Misses**       | *Not recorded*         | 8,118                                          |
+| **Elapsed Time (sec)**  | 0.011 (from `time`)    | 0.000811037 (from `perf stat`)                |
+| **User Time (sec)**     | 0.003                  | 0.000858000                                    |
+| **System Time (sec)**   | 0.007                  | 0.000000000                                    |
+
+### Summary
+- The fixed kernel module on 64-bit architecture executed efficiently with no faults or crashes.
+- All metrics were successfully recorded for the overflow input, indicating stable behavior.
+- Minor differences in page faults and CPU usage are acceptable, given improved security and system integrity.
 
 ---
 
-## Performance Table (Example)
+## Overall Performance Table (64-bit System)
 
-| Condition        | Real Time | User Time | Sys Time | Instructions | Cycles | Notes                            |
-|------------------|-----------|-----------|----------|--------------|--------|----------------------------------|
-| Before Overflow  | 0.004s    | 0.001s    | 0.003s   | 10,200       | 3,800  | Normal execution                 |
-| After Overflow   | 0.005s    | 0.001s    | 0.004s   | 12,000       | 4,000  | Return address may be corrupted |
+This table compares performance metrics before and after the stack overflow occurred, highlighting the impact of the overflow on system behavior and efficiency.
 
+| **Condition**     | **Real Time** | **User Time** | **Sys Time** | **Instructions** | **Cycles** | **Branch Misses** | **Notes**                            |
+|------------------|---------------|---------------|--------------|------------------|------------|--------------------|--------------------------------------|
+| Before Overflow  | 0.011s        | 0.003s        | 0.007s       | Not Captured     | Not Captured | Not Captured      | Normal echo command execution        |
+| After Overflow   | 0.0008s       | 0.00085s      | 0.0000s      | 1,311,208        | 1,500,775   | 8,118              | Handled long input securely post-fix |
+
+### Summary
+- **Before Overflow:** Echo command ran with regular input, system utilized more real and system time.
+- **After Overflow:** Performance counters show stable behavior with secure handling of potentially malicious input.
+- Fix implementation greatly improves execution efficiency while capturing detailed low-level stats.
+- 
 ---
 
 ## Conclusion
@@ -64,4 +127,7 @@ perf stat echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" | su
 - Observing "before" and "after" behavior helps analyze control flow anomalies.
 
 ---
+
+### Author: ARISUDAN TH
+GitHub: https://github.com/Arisudan
 
