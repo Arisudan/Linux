@@ -82,20 +82,20 @@ perf stat echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" | su
 This section presents the system performance metrics gathered using `perf stat` on a 64-bit system **after fixing the stack overflow vulnerability** in the `vuln_module`. The comparisons are based on both safe input and a long sequence of `'A'` characters that previously triggered the vulnerability.
 
 
-| **Metric**              | **SAFE_INPUT**         | **Long 'A' Input**                             |
-|-------------------------|------------------------|------------------------------------------------|
-| **Task Clock (msec)**   | *Not recorded*         | 0.420                                          |
-| **CPU Utilized**        | *Not recorded*         | 0.523 CPUs                                     |
-| **Context Switches**    | *Not recorded*         | 0                                              |
-| **CPU Migrations**      | *Not recorded*         | 0                                              |
-| **Page Faults**         | *Not recorded*         | 68                                             |
-| **Cycles**              | *Not recorded*         | 1,500,775                                      |
-| **Instructions**        | *Not recorded*         | 1,311,208                                      |
-| **Branches**            | *Not recorded*         | 238,589                                        |
-| **Branch Misses**       | *Not recorded*         | 8,118                                          |
-| **Elapsed Time (sec)**  | 0.011 (from `time`)    | 0.000811037 (from `perf stat`)                |
-| **User Time (sec)**     | 0.003                  | 0.000858000                                    |
-| **System Time (sec)**   | 0.007                  | 0.000000000                                    |
+| **Metric**              | **SAFE_INPUT** | **Overflowing 'A' Input**              |
+|-------------------------|----------------|----------------------------------------|
+| **Task Clock (msec)**   | -              | 0.420                                  |
+| **CPU Utilized**        | -              | 0.523 CPUs                             |
+| **Context Switches**    | -              | 0                                      |
+| **CPU Migrations**      | -              | 0                                      |
+| **Page Faults**         | -              | 68                                     |
+| **Cycles**              | -              | 1,500,775                              |
+| **Instructions**        | -              | 1,311,208                              |
+| **Branches**            | -              | 238,589                                |
+| **Branch Misses**       | -              | 8,118                                  |
+| **Elapsed Time (sec)**  | 0.011          | 0.000811037                            |
+| **User Time (sec)**     | 0.003          | 0.000858000                            |
+| **Sys Time (sec)**      | 0.007          | 0.000000000                            |
 
 ### Summary
 - The fixed kernel module on 64-bit architecture executed efficiently with no faults or crashes.
