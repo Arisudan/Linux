@@ -6,33 +6,19 @@
 #define DEVICE_NAME "vuln"
 #define BUF_LEN 32
 
-// Toggle between vulnerable and secure behavior
-#define VULNERABLE_MODE 1  // Set to 0 for secure mode
-
 static int major;
 static char kernel_buffer[BUF_LEN];
 
 ssize_t device_write(struct file *file, const char __user *buf, size_t len, loff_t *offset) {
-    printk(KERN_INFO "[vuln] Writing %zu bytes to kernel buffer (max allowed: %d).\n", len, BUF_LEN);
+    printk(KERN_INFO "[vuln] Writing %zu bytes (max: %d) to kernel buffer.\n", len, BUF_LEN);
 
-#if VULNERABLE_MODE
-    // ❌ Vulnerable: No bounds check
-    copy_from_user(kernel_buffer, buf, len);
-    printk(KERN_WARNING "[vuln] Vulnerable write executed. Buffer overflow possible!\n");
-#else
-    // ✅ Secure: Bounds checking
-    if (len > BUF_LEN) {
-        printk(KERN_WARNING "[vuln] Write too large (%zu > %d). Rejecting.\n", len, BUF_LEN);
-        return -EINVAL;
-    }
-    if (copy_from_user(kernel_buffer, buf, len)) {
-        printk(KERN_WARNING "[vuln] copy_from_user failed.\n");
+    size_t safe_len = len > BUF_LEN ? BUF_LEN : len;
+    if (copy_from_user(kernel_buffer, buf, safe_len)) {
+        printk(KERN_WARNING "[vuln] copy_from_user failed\n");
         return -EFAULT;
     }
-    printk(KERN_INFO "[vuln] Secure write completed.\n");
-#endif
 
-    return len;
+    return safe_len;
 }
 
 static struct file_operations fops = {
