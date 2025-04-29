@@ -163,3 +163,6 @@ This section presents the system performance metrics gathered using `perf stat` 
 - Fixing the vulnerability restores predictable execution even with long or malformed input.
 
 ---
+
+### Author: ARISUDAN TH
+GitHub: https://github.com/Arisudan
