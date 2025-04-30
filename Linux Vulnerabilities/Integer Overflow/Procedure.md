@@ -1,8 +1,4 @@
-Absolutely! Below is your updated and polished **project write-up**, incorporating the additional debugging tips for 64-bit Linux systems and the enhanced crash trigger logic we discussed. It's formatted for readability and thoroughness—suitable for documentation, training, or GitHub.
-
----
-
-# 🧨 Integer Overflow Vulnerability on a Linux System
+# Integer Overflow Vulnerability on a Linux System
 
 ## 🎯 Project Goal
 
@@ -194,13 +190,51 @@ if (num_elements > UINT_MAX / sizeof(int)) {
     printf("Integer overflow detected! Allocation aborted.\n");
     return 1;
 }
+
+Paste the following **vulnerable C code**:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>  // For UINT_MAX
+
+int main() {
+    unsigned int num_elements;
+    printf("Enter number of integers to allocate: ");
+    scanf("%u", &num_elements);
+
+    // FIX: Check for integer overflow before multiplying
+    if (num_elements > UINT_MAX / sizeof(int)) {
+        printf("Integer overflow detected! Allocation aborted.\n");
+        return 1;
+    }
+
+    unsigned int total_size = num_elements * sizeof(int);
+    printf("Allocating %u bytes\n", total_size);
+
+    int *array = (int *)malloc(total_size);
+    if (!array) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+
+    for (unsigned int i = 0; i < num_elements; i++) {
+        array[i] = i;
+        if (i % 100000000 == 0)
+            printf("Wrote %u elements...\n", i);
+    }
+
+    printf("Memory write completed\n");
+    free(array);
+    return 0;
+}
 ```
 
+```
 This ensures that multiplication won’t wrap around and cause misallocated memory.
-
+```
 ---
 
-### 🔁 Step 8: Rebuild and Test Safe Version
+## 🔁 Step 8: Rebuild and Test Safe Version
 
 ```bash
 gcc -g -o int_overflow_safe int_overflow.c
