@@ -213,6 +213,5 @@ This project showed how:
 You can find and contribute to this project at:
 
 **GitHub**: [https://github.com/Arisudan/Linux](https://github.com/Arisudan/Linux)
-```
 
 ---
