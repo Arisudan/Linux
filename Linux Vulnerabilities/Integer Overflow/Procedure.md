@@ -146,6 +146,11 @@ At the GDB prompt:
 ```bash
 run
 ```
+Enter number of integers to allocate: 
+
+```bash
+1073741825
+```
 
 After the crash:
 
