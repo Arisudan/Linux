@@ -1,4 +1,4 @@
-# 🧨 Integer Overflow Vulnerability on a Linux System
+# Integer Overflow Vulnerability on a Linux System
 
 ## 🎯 Project Goal
 
