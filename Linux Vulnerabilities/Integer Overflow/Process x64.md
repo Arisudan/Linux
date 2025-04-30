@@ -43,7 +43,12 @@ valgrind ./int_overflow
 ---
 
 4. After fixing the Vulnerability:
-   
+
+ Enter number of integers to allocate: 
+```bash
+1073741825
+```
+
 ![6](https://github.com/user-attachments/assets/4bf0ffc2-929a-45b5-b68e-56c9d65820b1)
 
 ---
@@ -53,6 +58,11 @@ valgrind ./int_overflow
 ```bash
 time ./int_overflow_safe
 ```
+Enter number of integers to allocate: 
+```bash
+1073741825
+```
+![8](https://github.com/user-attachments/assets/77d87851-20a0-468a-af39-2378a3b3c4ef)
 
 ---
 
