@@ -49,10 +49,19 @@ valgrind ./int_overflow
 ---
 
 5. View the performance of the kernel module before clearing out the vulnerability:
+   
+```bash
+time ./int_overflow_safe
+```
 
 ---
 
-7. View the performance of the kernel module before clearing out the vulnerability:
+6. View the performance of the kernel module after clearing out the vulnerability:
+   
+```bash
+time ./int_overflow_safe
+```
+![7](https://github.com/user-attachments/assets/8ba438a7-33a1-4e78-8b31-883af212e158)
 
 ---
 
