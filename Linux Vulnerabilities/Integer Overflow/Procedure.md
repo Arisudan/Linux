@@ -130,9 +130,10 @@ Segmentation fault (core dumped)
 
 ```bash
 gdb ./int_overflow
+```
+```bash
 run
 ```
-
 After it crashes, type:
 
 ```bash
