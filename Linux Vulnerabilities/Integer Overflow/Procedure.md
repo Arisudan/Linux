@@ -20,9 +20,10 @@ This project demonstrates an **Integer Overflow vulnerability** using a C progra
 
 ```bash
 mkdir -p ~/int-overflow-lab/vuln_code
+```
+```bash
 cd ~/int-overflow-lab/vuln_code
 ```
-
 ---
 
 ### Step 2: Create Vulnerable Source Code
