@@ -81,7 +81,7 @@ Enter number of integers to allocate:
 
 ## Performance 
 
-This section demonstrates the comparison of the performance before and after applying a proper safety check.
+This section demonstrates the comparison of the performance **before** and **after** applying a proper safety check.
 
 ## 📂 File Structure
 
