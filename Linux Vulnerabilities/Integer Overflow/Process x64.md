@@ -22,38 +22,7 @@ This project demonstrates an **Integer Overflow vulnerability (CWE-190)** in a C
 
 ---
 
-2. Run and Trigger overflow in GDB:
-
-![2](https://github.com/user-attachments/assets/7342a3bf-cd56-4ef3-9bb3-d0c96fddbdb1)
-
-![3](https://github.com/user-attachments/assets/19c528fd-d20c-4628-9929-e4bbed6210a7)
-
-bt - shows the backtrace, helping you locate the crashing line in the code.
-
----
-
-3. Using Valgrind for Deeper Memory Checks
-
-```bash
-valgrind ./int_overflow
-```
-![4](https://github.com/user-attachments/assets/f34110f9-0bbf-4271-b440-eafc0bf7dad9)
-![5](https://github.com/user-attachments/assets/2d1d1966-30d5-4357-b402-8c2bb03fe02d)
-
----
-
-4. After fixing the Vulnerability:
-
- Enter number of integers to allocate: 
-```bash
-1073741825
-```
-
-![6](https://github.com/user-attachments/assets/4bf0ffc2-929a-45b5-b68e-56c9d65820b1)
-
----
-
-5. View the performance of the kernel module before clearing out the vulnerability:
+2. View the performance of the kernel module before clearing out the vulnerability:
    
 ```bash
 time ./int_overflow_safe
@@ -66,10 +35,45 @@ Enter number of integers to allocate:
 
 ---
 
+3. Run and Trigger overflow in GDB:
+
+![2](https://github.com/user-attachments/assets/7342a3bf-cd56-4ef3-9bb3-d0c96fddbdb1)
+
+![3](https://github.com/user-attachments/assets/19c528fd-d20c-4628-9929-e4bbed6210a7)
+
+bt - shows the backtrace, helping you locate the crashing line in the code.
+
+---
+
+4. Using Valgrind for Deeper Memory Checks
+
+```bash
+valgrind ./int_overflow
+```
+![4](https://github.com/user-attachments/assets/f34110f9-0bbf-4271-b440-eafc0bf7dad9)
+![5](https://github.com/user-attachments/assets/2d1d1966-30d5-4357-b402-8c2bb03fe02d)
+
+---
+
+5. After fixing the Vulnerability:
+
+ Enter number of integers to allocate: 
+```bash
+1073741825
+```
+
+![6](https://github.com/user-attachments/assets/4bf0ffc2-929a-45b5-b68e-56c9d65820b1)
+
+---
+
 6. View the performance of the kernel module after clearing out the vulnerability:
    
 ```bash
 time ./int_overflow_safe
+```
+Enter number of integers to allocate: 
+```bash
+1073741825
 ```
 ![7](https://github.com/user-attachments/assets/8ba438a7-33a1-4e78-8b31-883af212e158)
 
