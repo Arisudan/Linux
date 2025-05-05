@@ -19,43 +19,12 @@ This project demonstrates an **Integer Overflow vulnerability (CWE-190)** in a C
 
 1. Creation of the Integer Overflow Vulnerability:
    
-![1](https://github.com/user-attachments/assets/47f448bc-7034-438b-972f-3b30f211da9c)
+   ![Capture 1](https://github.com/user-attachments/assets/0df43932-1811-42c1-bbce-fc66762d7742)
 
 ---
 
-2. Run and Trigger overflow in GDB:
+2. View the performance of the kernel module before clearing out the vulnerability:
 
-![2](https://github.com/user-attachments/assets/7342a3bf-cd56-4ef3-9bb3-d0c96fddbdb1)
-
-![3](https://github.com/user-attachments/assets/19c528fd-d20c-4628-9929-e4bbed6210a7)
-
-bt - shows the backtrace, helping you locate the crashing line in the code.
-
----
-
-3. Using Valgrind for Deeper Memory Checks
-
-```bash
-valgrind ./int_overflow
-```
-![4](https://github.com/user-attachments/assets/f34110f9-0bbf-4271-b440-eafc0bf7dad9)
-![5](https://github.com/user-attachments/assets/2d1d1966-30d5-4357-b402-8c2bb03fe02d)
-
----
-
-4. After fixing the Vulnerability:
-
- Enter number of integers to allocate: 
-```bash
-1073741825
-```
-
-![6](https://github.com/user-attachments/assets/4bf0ffc2-929a-45b5-b68e-56c9d65820b1)
-
----
-
-5. View the performance of the kernel module before clearing out the vulnerability:
-   
 ```bash
 time ./int_overflow_safe
 ```
@@ -63,7 +32,36 @@ Enter number of integers to allocate:
 ```bash
 1073741825
 ```
-![8](https://github.com/user-attachments/assets/77d87851-20a0-468a-af39-2378a3b3c4ef)
+   ![Capture 2](https://github.com/user-attachments/assets/d847d8a6-5b0d-47a6-b585-f965d76a9528)
+
+---
+
+3. Run and Trigger overflow in GDB:
+
+![Capture 3](https://github.com/user-attachments/assets/41a6cdad-5d66-4d66-8b85-7a70e2a718f1)
+
+bt - shows the backtrace, helping you locate the crashing line in the code.
+
+---
+
+4. Using Valgrind for Deeper Memory Checks
+
+```bash
+valgrind ./int_overflow
+```
+![Capture 4](https://github.com/user-attachments/assets/2f96d9e0-ab98-41b6-8e51-88df8e4cd6d9)
+![Capture 5](https://github.com/user-attachments/assets/e0080638-f35f-425a-a9b2-2dd02f00dc0d)
+
+---
+
+5. After fixing the Vulnerability:
+
+ Enter number of integers to allocate: 
+```bash
+1073741825
+```
+
+![Capture 6](https://github.com/user-attachments/assets/3f2488f3-0d34-4667-8390-e3a26e5ee4a2)
 
 ---
 
@@ -72,7 +70,12 @@ Enter number of integers to allocate:
 ```bash
 time ./int_overflow_safe
 ```
-![7](https://github.com/user-attachments/assets/8ba438a7-33a1-4e78-8b31-883af212e158)
+Enter number of integers to allocate: 
+```bash
+1073741825
+```
+
+![Capture 7](https://github.com/user-attachments/assets/b04852f0-142d-41e6-a640-7694e8ffbd64)
 
 ---
 
