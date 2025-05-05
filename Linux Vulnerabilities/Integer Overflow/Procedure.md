@@ -256,6 +256,19 @@ Integer overflow detected! Allocation aborted.
 
 ---
 
+## Step 9: To view kernel system performance
+
+```bash
+time ./int_overflow_safe
+```
+
+Input:
+
+```
+1073741825
+```
+---
+
 ## 🧰 Troubleshooting and Best Practices
 
 | Issue                       | Solution                                                                 |
