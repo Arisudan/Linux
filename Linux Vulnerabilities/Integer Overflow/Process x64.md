@@ -79,7 +79,38 @@ Enter number of integers to allocate:
 
 ---
 
-## Performance 
+## Integer Overflow Vulnerability Performance Analysis
+
+This section demonstrates the comparison of the performance **before** and **after** the vulnerability was fixed.
+
+## 📂 File Structure
+
+- `int_overflow.c` – Vulnerable code that leads to a segmentation fault due to unchecked integer overflow.
+- `int_overflow_safe.c` – Secure version that detects the overflow and exits safely.
+
+## 🧪 Input Used
+
+```text
+Enter number of integers to allocate: 1073741825
+````
+---
+
+## ⚙️ Performance Comparison
+
+| **Metric**                   | **Before Fix (`int_overflow`)**     | **After Fix (`int_overflow_safe`)**   |
+|-----------------------------|--------------------------------------|----------------------------------------|
+| **Program**                 | `./int_overflow`                    | `./int_overflow_safe`                  |
+| **Input**                   | `1073741825`                        | `1073741825`                           |
+| **Output Behavior**         | Segmentation fault (core dumped)    | Integer overflow detected, allocation aborted |
+| **Memory Allocation**       | Attempted (allocated 4 bytes)       | Blocked (overflow detected)            |
+| **Elements Written**        | 0                                   | 0                                      |
+| **Execution Time (real)**   | `19.368s`                          | `14.312s`                            |
+| **Execution Time (user)**   | `0.000s`                           | `0.000s`                             |
+| **Execution Time (sys)**    | `0.003s`                           | `0.002s`                             |
+| **Stability**               |  Crashed                           |  Stable                              |
+| **Vulnerability Status**    | Vulnerable                        | Safe                                |
+
+---
 ## 📁 Project Files
 
 View and contribute to the project on GitHub:
