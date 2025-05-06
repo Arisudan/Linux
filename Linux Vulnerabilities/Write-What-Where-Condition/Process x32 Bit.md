@@ -62,36 +62,37 @@ This project demonstrates a **Write-What-Where Condition vulnerability (CWE-123)
 
 ---
 
-## Integer Overflow Vulnerability Performance Analysis
+## Write-What-Where Condition Vulnerability Performance Analysis
 
 This section demonstrates the comparison of the performance **before** and **after** the vulnerability was fixed.
 
-## 📂 File Structure
-
-- `int_overflow.c` – Vulnerable code that leads to a segmentation fault due to unchecked integer overflow.
-- `int_overflow_safe.c` – Secure version that detects the overflow and exits safely.
-
-## 🧪 Input Used
-
-```text
-Enter number of integers to allocate: 1073741825
-````
 ---
 
-## ⚙️ Performance Comparison
+### 🧾 **System Performance Comparison Table (CWE-123 Vulnerability)**
 
-| **Metric**                   | **Before Fix (`int_overflow`)**     | **After Fix (`int_overflow_safe`)**   |
-|-----------------------------|--------------------------------------|----------------------------------------|
-| **Program**                 | `./int_overflow`                    | `./int_overflow_safe`                  |
-| **Input**                   | `1073741825`                        | `1073741825`                           |
-| **Output Behavior**         | Segmentation fault (core dumped)    | Integer overflow detected, allocation aborted |
-| **Memory Allocation**       | Attempted (allocated 4 bytes)       | Blocked (overflow detected)            |
-| **Elements Written**        | 0                                   | 0                                      |
-| **Execution Time (real)**   | `19.368s`                          | `14.312s`                            |
-| **Execution Time (user)**   | `0.000s`                           | `0.000s`                             |
-| **Execution Time (sys)**    | `0.003s`                           | `0.002s`                             |
-| **Stability**               |  Crashed                           |  Stable                              |
-| **Vulnerability Status**    | Vulnerable                        | Safe                                |
+| **Metric**                       | **Before Fix** | **After Fix** | **Change / Observation**                        |
+| -------------------------------- | -------------- | ------------- | ----------------------------------------------- |
+| **CPU Cycles**                   | Not Supported  | Not Supported | Not available (likely due to system limitation) |
+| **Instructions**                 | Not Supported  | Not Supported | Not available                                   |
+| **Cache Misses**                 | Not Supported  | Not Supported | Not available                                   |
+| **Elapsed (Wall Clock) Time**    | 2.14 seconds   | 2.07 seconds  | ⬇ Slight improvement after fix                  |
+| **User Time**                    | 0.04 seconds   | 0.04 seconds  | No change                                       |
+| **System Time**                  | 0.04 seconds   | 0.04 seconds  | No change                                       |
+| **Percent CPU Usage**            | 4%             | 4%            | No change                                       |
+| **Max Resident Set Size**        | 5584 KB        | 5592 KB       | ⬆ Minor increase                                |
+| **Voluntary Context Switches**   | 31             | 29            | ⬇ Slight improvement                            |
+| **Involuntary Context Switches** | 51             | 43            | ⬇ Fewer forced switches after fix               |
+| **Page Faults (Minor)**          | 1986           | 1985          | Almost identical                                |
+| **Page Faults (Major)**          | 0              | 0             | No change                                       |
+| **Swaps**                        | 0              | 0             | No change                                       |
+| **Signals Delivered**            | 0              | 0             | No change                                       |
+| **Exit Status**                  | 0              | 0             | No change                                       |
+
+---
+
+## Conclusion: 
+
+After clearing the CWE-123 vulnerability, minor improvements were observed in **context switching** and **execution time**, indicating a slightly more efficient and stable system.
 
 ---
 ## 📁 Project Files
