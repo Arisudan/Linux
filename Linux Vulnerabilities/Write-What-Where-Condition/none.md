@@ -55,4 +55,81 @@ sudo perf stat -e cycles,instructions,cache-misses ./www_vuln > vuln_perf.txt
 
 ---
 
-Would you like me to check your directory structure or command if you paste it here?
+Thank you for the image, Arisudan. The error:
+
+```
+fatal error: linux/module.h: No such file or directory
+```
+
+means you're trying to compile **Linux kernel module code** using `gcc` as if it's a normal userspace program, which **won’t work**.
+
+---
+
+### ✅ Here's how to fix it:
+
+#### 🔧 You must compile it as a **kernel module**, not a regular C program.
+
+---
+
+### 🛠 Steps to Compile `www_vuln.c` as a Kernel Module:
+
+#### 1. **Install kernel headers (if not installed)**
+
+```bash
+sudo apt update
+sudo apt install linux-headers-$(uname -r)
+```
+
+---
+
+#### 2. **Create a Makefile**
+
+In the same folder as `www_vuln.c`, create a file named `Makefile` with:
+
+```makefile
+obj-m += www_vuln.o
+
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+```
+
+---
+
+#### 3. **Build the Module**
+
+Run:
+
+```bash
+make
+```
+
+You should see a file like `www_vuln.ko` created — this is your **kernel module**.
+
+---
+
+#### 4. **Insert and Remove the Module**
+
+To insert:
+
+```bash
+sudo insmod www_vuln.ko
+```
+
+To check:
+
+```bash
+dmesg | tail
+```
+
+To remove:
+
+```bash
+sudo rmmod www_vuln
+```
+
+---
+
+
