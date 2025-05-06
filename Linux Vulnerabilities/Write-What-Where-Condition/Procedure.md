@@ -165,6 +165,13 @@ sudo dmesg | grep www_vuln
 
 ---
 
+### Step 8: View the Performance of the system
+
+```bash
+sudo perf stat -a -e cycles,instructions,cache-misses sleep 5 > vuln_perf.txt
+```
+---
+
 ### Step 9: Fix the Vulnerability
 
 Edit `www_vuln.c`:
