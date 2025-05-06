@@ -165,14 +165,14 @@ sudo dmesg | grep www_vuln
 
 ---
 
-### Step 8: View the Performance of the system
+### Step 9: View the Performance of the system before clearing the vulnerability
 
 ```bash
 sudo perf stat -a -e cycles,instructions,cache-misses sleep 5 > vuln_perf.txt
 ```
 ---
 
-### Step 9: Fix the Vulnerability
+### Step 10: Fix the Vulnerability
 
 Edit `www_vuln.c`:
 
@@ -244,7 +244,7 @@ MODULE_LICENSE("GPL");
 ```
 ---
 
-### Step 10: Rebuild and Reload
+### Step 11: Rebuild and Reload
 
 ```bash
 make clean
@@ -255,7 +255,7 @@ sudo insmod www_vuln.ko
 
 ---
 
-### Step 11: Test After Fix
+### Step 12: Test After Fix
 
 Try the same payload:
 
@@ -268,7 +268,13 @@ You should see the safe message in `dmesg`:
 ```bash
 sudo dmesg | grep www_vuln
 ```
+---
 
+### Step 13: View the Performance of the system after clearing the vulnerability
+
+```bash
+sudo perf stat -a -e cycles,instructions,cache-misses sleep 5 > vuln_perf.txt
+```
 ---
 
 ## Troubleshooting
