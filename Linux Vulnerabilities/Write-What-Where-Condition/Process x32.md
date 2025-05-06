@@ -45,12 +45,7 @@ This project demonstrates a **Write-What-Where Condition vulnerability (CWE-123)
 
 ![Capture 6](https://github.com/user-attachments/assets/befc5d8d-1b82-4dfc-ac2b-9868d321f918)
 
-
-
-
-
-
-
+![Capture 7](https://github.com/user-attachments/assets/154cdc97-4894-4f6c-b54b-f35d84903cf3)
 
 ---
 
@@ -61,7 +56,9 @@ This project demonstrates a **Write-What-Where Condition vulnerability (CWE-123)
     bash -c "sudo insmod www_vuln.ko; sleep 2; sudo rmmod www_vuln"
 ```
 
-![7](https://github.com/user-attachments/assets/8ba438a7-33a1-4e78-8b31-883af212e158)
+![Capture 8](https://github.com/user-attachments/assets/2956e9ee-03e1-47db-87e6-48092ceadc8e)
+
+![Capture 9](https://github.com/user-attachments/assets/576a3b5e-d1dd-46fa-86e8-8abecb2cb338)
 
 ---
 
