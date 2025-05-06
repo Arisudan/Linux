@@ -168,7 +168,8 @@ sudo dmesg | grep www_vuln
 ### Step 9: View the Performance of the system before clearing the vulnerability
 
 ```bash
-sudo perf stat -a -e cycles,instructions,cache-misses sleep 5 > vuln_perf.txt
+/usr/bin/time -v sudo perf stat -a -e cycles,instructions,cache-misses \
+    bash -c "sudo insmod www_vuln.ko; sleep 2; sudo rmmod www_vuln"
 ```
 ---
 
@@ -273,9 +274,8 @@ sudo dmesg | grep www_vuln
 ### Step 13: View the Performance of the system after clearing the vulnerability
 
 ```bash
-sudo perf stat -a -e cycles,instructions,cache-misses sleep 5 > vuln_perf.txt
-sudo perf stat -e cycles,instructions,cache-misses ./www_vuln > vuln_perf.txt
-
+/usr/bin/time -v sudo perf stat -a -e cycles,instructions,cache-misses \
+    bash -c "sudo insmod www_vuln.ko; sleep 2; sudo rmmod www_vuln"
 ```
 ---
 
