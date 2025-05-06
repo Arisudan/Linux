@@ -22,15 +22,18 @@ This project demonstrates a **Write-What-Where Condition** vulnerability in a cu
 
 ```bash
 sudo apt update
+```
+```bash
 sudo apt install build-essential linux-headers-$(uname -r)
-````
-
+```
 ---
 
 ### Step 2: Create Project Directory
 
 ```bash
 mkdir -p ~/write-what-where-lab/vuln_module
+```
+```bash
 cd ~/write-what-where-lab/vuln_module
 ```
 
@@ -139,6 +142,8 @@ sudo dmesg | grep www_vuln
 
 ```bash
 sudo mknod /dev/www_vuln c <MAJOR_NUMBER> 0
+```
+```bash
 sudo chmod 666 /dev/www_vuln
 ```
 
@@ -181,6 +186,55 @@ printk(KERN_INFO "[www_vuln] Unsafe memory write prevented.\n");
 // No direct write to structure from user-space
 ```
 
+Copy and Paste the Following Safe Code:
+
+```c
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/fs.h>
+#include <linux/uaccess.h>
+
+#define DEVICE_NAME "www_vuln"
+
+struct linked_node {
+    struct linked_node *next;
+    struct linked_node *prev;
+};
+
+static int major;
+static struct linked_node node;
+
+ssize_t device_write(struct file *file, const char __user *buf, size_t len, loff_t *offset) {
+    printk(KERN_INFO "[www_vuln] Received %zu bytes from user.\n", len);
+
+    // Vulnerability: direct write into kernel structure
+    if (len > 0 && len <= sizeof(struct linked_node)) {
+        printk(KERN_INFO "[www_vuln] Unsafe memory write prevented.\n");  // Write-What-Where condition eradicated
+    }
+
+    return len;
+}
+
+static struct file_operations fops = {
+    .write = device_write,
+};
+
+static int __init www_init(void) {
+    major = register_chrdev(0, DEVICE_NAME, &fops);
+    printk(KERN_INFO "[www_vuln] Module loaded. Major number: %d\n", major);
+    return 0;
+}
+
+static void __exit www_exit(void) {
+    unregister_chrdev(major, DEVICE_NAME);
+    printk(KERN_INFO "[www_vuln] Module unloaded.\n");
+}
+
+module_init(www_init);
+module_exit(www_exit);
+MODULE_LICENSE("GPL");
+
+```
 ---
 
 ### Step 10: Rebuild and Reload
