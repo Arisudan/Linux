@@ -274,6 +274,8 @@ sudo dmesg | grep www_vuln
 
 ```bash
 sudo perf stat -a -e cycles,instructions,cache-misses sleep 5 > vuln_perf.txt
+sudo perf stat -e cycles,instructions,cache-misses ./www_vuln > vuln_perf.txt
+
 ```
 ---
 
